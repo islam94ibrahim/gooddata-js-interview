@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import '@gooddata/react-components/styles/css/main.css';
 
-import { ColumnChart } from '@gooddata/react-components';
 import Layout from '../../components/UI/Layout/Layout';
+import Chart from '../../components/Chart/Chart';
 
 const grossProfitMeasure = '/gdc/md/xms7ga4tf3g3nzucd8380o2bev8oeknp/obj/6877';
 const dateAttributeInMonths =
@@ -80,22 +80,12 @@ class App extends Component {
 
     return (
       <Layout>
-        <h1>$ Gross Profit in month {this.renderDropdown()} 2016</h1>
-        <div>
-          <ColumnChart
-            measures={measures}
-            filters={filters}
-            projectId={projectId}
-          />
-        </div>
-        <h1>$ Gross Profit - All months</h1>
-        <div>
-          <ColumnChart
-            measures={measures}
-            viewBy={viewBy}
-            projectId={projectId}
-          />
-        </div>
+        <Chart measures={measures} filters={filters} projectId={projectId}>
+          <h1>$ Gross Profit in month {this.renderDropdown()} 2016</h1>
+        </Chart>
+        <Chart measures={measures} viewBy={viewBy} projectId={projectId}>
+          <h1>$ Gross Profit - All months</h1>
+        </Chart>
       </Layout>
     );
   }
