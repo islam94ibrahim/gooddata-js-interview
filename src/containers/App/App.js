@@ -5,6 +5,8 @@ import '@gooddata/react-components/styles/css/main.css';
 
 import Layout from '../../components/UI/Layout/Layout';
 import Chart from '../../components/Chart/Chart';
+import Select from '../../components/UI/Select/Select';
+import { months } from '../../utils/helper';
 
 const grossProfitMeasure = '/gdc/md/xms7ga4tf3g3nzucd8380o2bev8oeknp/obj/6877';
 const dateAttributeInMonths =
@@ -12,17 +14,32 @@ const dateAttributeInMonths =
 const dateAttribute = '/gdc/md/xms7ga4tf3g3nzucd8380o2bev8oeknp/obj/2180';
 
 class App extends Component {
-  getMonthFilter() {
-    return {
-      absoluteDateFilter: {
-        dataSet: {
-          uri: dateAttribute,
-        },
-        from: '2016-01-01',
-        to: '2016-01-31',
-      },
+  constructor(props) {
+    super(props);
+
+    this.monthChangedHandler = this.monthChangedHandler.bind(this);
+
+    this.state = {
+      month: 1,
     };
   }
+
+  getMonthFilter = () => {
+    const firstDay = new Date(2016, this.state.month - 1, 1);
+    const lastDay = new Date(2016, this.state.month, 0);
+
+    return [
+      {
+        absoluteDateFilter: {
+          dataSet: {
+            uri: dateAttribute,
+          },
+          from: `2016-${this.state.month}-${firstDay.getDate()}`,
+          to: `2016-${this.state.month}-${lastDay.getDate()}`,
+        },
+      },
+    ];
+  };
 
   getMeasures() {
     return [
@@ -72,16 +89,30 @@ class App extends Component {
     );
   }
 
+  monthChangedHandler = (e) => {
+    this.setState({ month: e.target.value });
+  };
+
   render() {
     const projectId = 'xms7ga4tf3g3nzucd8380o2bev8oeknp';
-    const filters = [this.getMonthFilter()];
+    const filters = this.getMonthFilter();
     const measures = this.getMeasures();
     const viewBy = this.getViewBy();
 
     return (
       <Layout>
         <Chart measures={measures} filters={filters} projectId={projectId}>
-          <h1>$ Gross Profit in month {this.renderDropdown()} 2016</h1>
+          <h1>
+            $ Gross Profit in month
+            {
+              <Select
+                value={this.state.month}
+                options={months}
+                changed={this.monthChangedHandler}
+              />
+            }
+            2016
+          </h1>
         </Chart>
         <Chart measures={measures} viewBy={viewBy} projectId={projectId}>
           <h1>$ Gross Profit - All months</h1>
