@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@gooddata/react-components": "6.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "http-proxy-middleware": "0.19.1",
     "node-sass": "4.11.0",
     "react": "16.5.2",
