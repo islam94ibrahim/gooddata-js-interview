@@ -1,5 +1,3 @@
-// Copyright (C) 2007-2019, GoodData(R) Corporation. All rights reserved.
-
 import React, { Component } from 'react';
 import '@gooddata/react-components/styles/css/main.css';
 
